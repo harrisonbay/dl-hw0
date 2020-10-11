@@ -8,6 +8,8 @@
 // ACTIVATION a: function to run
 void activate_matrix(matrix m, ACTIVATION a)
 {
+    
+    int epsilon = 5;
     int i, j;
     for(i = 0; i < m.rows; ++i){
         double sum = 0;
@@ -35,7 +37,7 @@ void activate_matrix(matrix m, ACTIVATION a)
 
             } else if (a == SOFTMAX){
                 // TODO
-                m.data[i*m.cols + j] = exp(m.data[i*m.cols + j]);
+                m.data[i*m.cols + j] = exp(m.data[i*m.cols + j] - epsilon);
             }
 
             sum += m.data[i*m.cols + j];
