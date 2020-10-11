@@ -101,9 +101,15 @@ void update_connected_layer(layer l, float rate, float momentum, float decay)
 {
 
     // TODO
-    // print_matrix(l.w);
+    // l.dw = m * delta w_{prev} + dL/dw - \lambda/w
+    axpy_matrix(-decay, l.w, l.dw);
+
+    // update rule (GD)
     axpy_matrix(rate, l.dw, l.w);
     axpy_matrix(rate, l.db, l.b);
+    
+    // l.dw = m * delta w_{prev}
+    scal_matrix(momentum, l.dw);
 
 }
 
