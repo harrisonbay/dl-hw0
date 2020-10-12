@@ -52,7 +52,6 @@ matrix copy_matrix(matrix m)
 {
     matrix c = make_matrix(m.rows, m.cols);
 
-    // TODO: 1.1 - Fill in the new matrix
     for (int i = 0; i < m.rows; i++) {
       for (int j = 0; j < m.cols; j++) {
         c.data[i*m.cols + j] = m.data[i*m.cols + j];
@@ -67,10 +66,8 @@ matrix copy_matrix(matrix m)
 // returns: matrix, result of transposition
 matrix transpose_matrix(matrix m)
 {
-    // TODO: 1.2 - Make a matrix the correct size, fill it in
     matrix t = make_matrix(m.cols,m.rows);
 
-    // TODO: 1.1 - Fill in the new matrix
     for (int i = 0; i < m.rows; i++) {
       for (int j = 0; j < m.cols; j++) {
         t.data[j*m.rows + i] = m.data[i*m.cols + j];
@@ -105,7 +102,6 @@ matrix matmul(matrix a, matrix b)
 {
     matrix c = make_matrix(a.rows, b.cols);
 
-    // TODO: 1.4 - Implement matrix multiplication. Make sure it's fast!
     for (int k = 0; k < b.rows; k++) {
       for (int i = 0; i < a.rows; i++) {
         for (int j = 0; j < b.cols; j++) {

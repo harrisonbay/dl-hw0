@@ -100,7 +100,6 @@ void backward_connected_layer(layer l, matrix prev_delta)
 void update_connected_layer(layer l, float rate, float momentum, float decay)
 {
 
-    // TODO
     // l.dw = m * delta w_{prev} + dL/dw - \lambda/w
     axpy_matrix(-decay, l.w, l.dw);
 
