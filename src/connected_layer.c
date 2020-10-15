@@ -26,7 +26,7 @@ void backward_bias(matrix delta, matrix db)
     int i, j;
     for(i = 0; i < delta.rows; ++i){
         for(j = 0; j < delta.cols; ++j){
-            db.data[j] += delta.data[i*delta.cols + j];
+            db.data[j] += -delta.data[i*delta.cols + j];
         }
     }
 }
@@ -74,11 +74,12 @@ void backward_connected_layer(layer l, matrix prev_delta)
     // The current bias deltas are stored in l.db
     backward_bias(delta, l.db);
 
-    // Then calculate dL/dw. Use axpy to add this dL/dw into any previously stored
+    // Then calculate dL/dw. Use axpy to subtract this dL/dw into any previously stored
     // updates for our weights, which are stored in l.dw
+    // l.dw = l.dw - dL/dw
      matrix x_t = transpose_matrix(in);
      matrix prod = matmul(x_t, delta);
-     axpy_matrix(1.0, prod, l.dw);
+     axpy_matrix(-1.0, prod, l.dw);
      // l.dw = copy_matrix(prod);
 
      // print_matrix(l.dw);
@@ -99,7 +100,22 @@ void backward_connected_layer(layer l, matrix prev_delta)
 // Update
 void update_connected_layer(layer l, float rate, float momentum, float decay)
 {
+    // TODO: 3.3
+    // Currently l.dw and l.db store:
+    // l.dw = momentum * l.dw_prev - dL/dw
+    // l.db = momentum * l.db_prev - dL/db
 
+    // For our weights we want to include weight decay:
+    // l.dw = l.dw - decay * l.w
+
+    // Then for both weights and biases we want to apply the updates:
+    // l.w = l.w + rate*l.dw
+    // l.b = l.b + rade*l.db
+
+
+    // Finally, we want to scale dw and db by our momentum to prepare them for the next round
+    // l.dw *= momentum
+    // l.db *= momentum
     // l.dw = m * delta w_{prev} + dL/dw - \lambda/w
     axpy_matrix(-decay, l.w, l.dw);
 
