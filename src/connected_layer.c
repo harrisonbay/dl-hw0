@@ -125,7 +125,7 @@ void update_connected_layer(layer l, float rate, float momentum, float decay)
     
     // l.dw = m * delta w_{prev}
     scal_matrix(momentum, l.dw);
-
+    scal_matrix(momentum, l.db);
 }
 
 layer make_connected_layer(int inputs, int outputs, ACTIVATION activation)
