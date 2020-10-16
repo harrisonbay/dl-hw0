@@ -32,14 +32,27 @@ void update_net(net m, float rate, float momentum, float decay)
     }
 }
 
-void write_matrix(matrix m, FILE *fp)
+void free_layer(layer l)
 {
-    fwrite(m.data, sizeof(float), m.rows*m.cols, fp);
+    free_matrix(l.w);
+    free_matrix(l.dw);
+    free_matrix(l.b);
+    free_matrix(l.db);
+    if(l.in) free(l.in);
+    if(l.out) free(l.out);
+    if(l.delta) {
+        free_matrix(*l.delta);
+        free(l.delta);
+    }
 }
 
-void read_matrix(matrix m, FILE *fp)
+void free_net(net n)
 {
-     fread(m.data, sizeof(float), m.rows*m.cols, fp);
+    int i;
+    for(i = 0; i < n.n; ++i){
+        free_layer(n.layers[i]);
+    }
+    free(n.layers);
 }
 
 void file_error(char *filename)
