@@ -2,6 +2,7 @@
 #include <math.h>
 #include "uwnet.h"
 
+#define ALPHA 0.1
 // Run an activation function on each element in a matrix,
 // modifies the matrix in place
 // matrix m: Input to activation function
@@ -25,7 +26,7 @@ void activate_matrix(matrix m, ACTIVATION a)
 
             } else if (a == LRELU) {
                 if (m.data[i*m.cols + j] < 0) {
-                  m.data[i*m.cols + j] *= .001;
+                  m.data[i*m.cols + j] *= ALPHA;
                 }
                 
             } else if (a == SOFTMAX) {
@@ -63,7 +64,7 @@ void gradient_matrix(matrix m, ACTIVATION a, matrix d)
                 }
             } else if (a == LRELU) {
                 if (x < 0) {
-                  d.data[i*d.cols + j] *= 0.001;
+                  d.data[i*d.cols + j] *= ALPHA;
                 }
             }
         }
